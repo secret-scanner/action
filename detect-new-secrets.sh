@@ -3,7 +3,7 @@ all_secrets_file=$(mktemp)
 new_secrets_file=$(mktemp)
 
 scan_new_secrets() {
-    git ls-files -z | xargs -0 detect-secrets scan $DETECT_SECRET_ADDITIONAL_ARGS --baseline "$BASELINE_FILE"
+    detect-secrets scan $DETECT_SECRET_ADDITIONAL_ARGS --baseline "$BASELINE_FILE"
     detect-secrets audit "$BASELINE_FILE" --report --json > "$all_secrets_file"
     jq 'map(select(.category == "UNVERIFIED"))' "$all_secrets_file" > "$new_secrets_file"
 }
