@@ -22,6 +22,10 @@ inputs:
     description: "The version of python to use"
     required: false
     default: '3.10.4'
+  verbose-logging:
+    description: "Optionally sets the -x flag to enable more verbose logging. Must be one of 'true', 'false'"
+    required: false
+    default: false
 
 runs:
   using: 'composite'
@@ -41,3 +45,4 @@ runs:
       env:
         BASELINE_FILE: ${{ inputs.baseline-file }}
         DETECT_SECRET_ADDITIONAL_ARGS: ${{ inputs.detect-secret-additional-args }}
+        VERBOSE_LOGGING: ${{ inputs.verbose-logging }}

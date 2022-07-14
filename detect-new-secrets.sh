@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$VERBOSE_LOGGING" = 'true' ]; then
+    set -x
+fi
+
 all_secrets_file=$(mktemp)
 new_secrets_file=$(mktemp)
 
@@ -6,6 +10,12 @@ scan_new_secrets() {
     detect-secrets scan $DETECT_SECRET_ADDITIONAL_ARGS --baseline "$BASELINE_FILE"
     detect-secrets audit "$BASELINE_FILE" --report --json > "$all_secrets_file"
     jq 'map(select(.category == "UNVERIFIED"))' "$all_secrets_file" > "$new_secrets_file"
+
+    if [ "$VERBOSE_LOGGING" = 'true' ]; then
+        echo "BASELINE FILE" && cat "$BASELINE_FILE"
+        echo "ALL SECRETS" && cat "$all_secrets_file"
+        echo "NEW SECRETS" && cat "$new_secrets_file"
+    fi
 }
 
 markdown_from_new_secrets() {

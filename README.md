@@ -15,3 +15,4 @@ Uses [`Yelp/detect-secrets`](https://github.com/Yelp/detect-secrets) to look for
 |detect-secret-additional-args|Extra arguments to pass to the `detect-secret` binary when it is looking for secrets|no|No additional arguments (empty string)|
 |baseline-file|A path to the baseline secrets file|no|.secrets.baseline|
 |python-version|The version of python to use|no|3.10.4|
+|verbose-logging|Enables more verbose logging. Must be one of `{'true', 'false'}`|no|false|
