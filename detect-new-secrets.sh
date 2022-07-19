@@ -20,7 +20,7 @@ advice_if_none_are_secret_verbose() {
 
     cat << EOF
 ### If none of these are secrets
-Replace the file `$BASELINE_FILE` with:
+Replace the file \`$BASELINE_FILE\` with:
 
 <details>
     <summary>Updated Secrets Baseline</summary>
