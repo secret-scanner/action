@@ -1,6 +1,7 @@
 #!/bin/bash
 all_secrets_file=$(mktemp)
 new_secrets_file=$(mktemp)
+command_to_update_baseline_file=$(mktemp)
 
 scan_new_secrets() {
     detect-secrets scan $DETECT_SECRET_ADDITIONAL_ARGS --baseline "$BASELINE_FILE"
@@ -9,24 +10,43 @@ scan_new_secrets() {
 }
 
 advice_if_none_are_secret_short() {
+    jobs_summary_link="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
     cat << EOF
-### If none of these are secrets
-Update the file \`$BASELINE_FILE\`. For an updated version of this file with new secrets marked ok, visit the jobs summary for this action.
+### If none of these are secrets or you don't care about these secrets
+1. Visit "$jobs_summary_link"
+2. Run the command under \`Command to Update Secrets Baseline\`
+3. Push the generated commit to GitHub
+EOF
+}
+
+generate_command_to_update_secrets_baseline() {
+    cat << EOF > "$command_to_update_baseline_file"
+currently_staged_files=\`git diff --name-only --cached\`
+git reset HEAD
+
+echo '$(jq 'setpath(["results"]; (.results | map_values(. | map_values(setpath(["is_secret"]; (.is_secret // false))))))' "$BASELINE_FILE")' > "$BASELINE_FILE"
+git add "$BASELINE_FILE"
+git commit -m "Updating baseline file"
+
+if [ "\$currently_staged_files" ]; then
+    git add $currently_staged_files
+fi
 EOF
 }
 
 advice_if_none_are_secret_verbose() {
-    baseline_with_all_secrets_marked_ok=$(jq 'setpath(["results"]; (.results | map_values(. | map_values(setpath(["is_secret"]; (.is_secret // false))))))' "$BASELINE_FILE")
+    generate_command_to_update_secrets_baseline
 
     cat << EOF
-### If none of these are secrets
+### If none of these are secrets or you don't care about these secrets
 Replace the file \`$BASELINE_FILE\` with:
 
 <details>
-    <summary>Updated Secrets Baseline</summary>
+    <summary>Command to Update Secrets Baseline</summary>
 
-\`\`\`json
-$baseline_with_all_secrets_marked_ok
+\`\`\`sh
+$(cat "$command_to_update_baseline_file")
 \`\`\`
 </details>
 EOF
