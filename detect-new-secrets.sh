@@ -10,7 +10,7 @@ scan_new_secrets() {
 }
 
 advice_if_none_are_secret_short() {
-    jobs_summary_link="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+    jobs_summary_link="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/$GITHUB_RUN_ATTEMPT"
 
     cat << EOF
 ### If none of these are secrets or you don't care about these secrets
