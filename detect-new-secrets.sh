@@ -46,7 +46,8 @@ Replace the file \`$BASELINE_FILE\` with:
     <summary>Command to Update Secrets Baseline</summary>
 
 \`\`\`sh
-$(cat "$command_to_update_baseline_file")
+EOF
+    cat "$command_to_update_baseline_file" << EOF
 \`\`\`
 </details>
 EOF
