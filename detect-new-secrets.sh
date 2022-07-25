@@ -14,7 +14,7 @@ advice_if_none_are_secret_short() {
 
     cat << EOF
 ### If none of these are secrets or you don't care about these secrets
-1. Visit "$jobs_summary_link"
+1. Visit →→→"$jobs_summary_link"
 2. Run the command under \`Command to Update Secrets Baseline\`
 3. Push the generated commit to GitHub
 EOF
