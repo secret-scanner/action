@@ -3,8 +3,28 @@ all_secrets_file=$(mktemp)
 new_secrets_file=$(mktemp)
 command_to_update_baseline_file=$(mktemp)
 
+fetch_flags_from_file() {
+    flag_to_add="$1"
+    file_to_check="$2"
+    
+    flags=()
+    while read line; do 
+        if [[ "${line::1}" != '#' ]] && [[ ! -z "$line" ]]; then
+            flag="$flag_to_add $line "
+            flags+="$flag"
+        fi
+    done < "$file_to_check"
+
+    echo "$flags"
+}
+
 scan_new_secrets() {
-    detect-secrets scan $DETECT_SECRET_ADDITIONAL_ARGS --baseline "$BASELINE_FILE"
+    excluded_files=$(fetch_flags_from_file '--exclude-files' "$EXCLUDE_FILES_PATH")
+    excluded_secrets=$(fetch_flags_from_file '--exclude-secrets' "$EXCLUDE_SECRETS_PATH")
+    excluded_lines=$(fetch_flags_from_file '--exclude-lines' "$EXCLUDE_LINES_PATH")
+    detect_secret_args="$excluded_files $excluded_secrets $excluded_lines $DETECT_SECRET_ADDITIONAL_ARGS"
+
+    detect-secrets scan $detect_secret_args --baseline "$BASELINE_FILE"
     detect-secrets audit "$BASELINE_FILE" --report --json > "$all_secrets_file"
     jq 'map(select(.category == "UNVERIFIED"))' "$all_secrets_file" > "$new_secrets_file"
 }

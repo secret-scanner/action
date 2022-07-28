@@ -22,6 +22,10 @@ inputs:
     description: "The version of python to use"
     required: false
     default: '3.10.4'
+  exclude_files_path:
+    description: "A path to the files containing things to exclude"
+    required: false
+    default: ".github/actions/secret-scanner"
 
 runs:
   using: 'composite'
@@ -41,3 +45,6 @@ runs:
       env:
         BASELINE_FILE: ${{ inputs.baseline-file }}
         DETECT_SECRET_ADDITIONAL_ARGS: ${{ inputs.detect-secret-additional-args }}
+        EXCLUDE_FILES_PATH: ${{ inputs.exclude_files_path }}/excluded_files_regex.txt
+        EXCLUDE_SECRETS_PATH: ${{ inputs.exclude_files_path }}/excluded_secrets_regex.txt
+        EXCLUDE_LINES_PATH: ${{ inputs.exclude_files_path }}/excluded_lines_regex.txt

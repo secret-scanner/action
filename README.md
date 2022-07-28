@@ -63,3 +63,4 @@ This will ignore everything in `.github/actions/spelling/*`, and any line that m
 |detect-secret-additional-args|Extra arguments to pass to the `detect-secret` binary when it is looking for secrets|no|No additional arguments (empty string)|
 |baseline-file|A path to the baseline secrets file|no|.secrets.baseline|
 |python-version|The version of python to use|no|3.10.4|
+|exclude_files_path|A path to the files containing things to exclude|no|.github/actions/secret-scanner|
