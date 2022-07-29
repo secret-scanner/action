@@ -31,7 +31,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
       - name: Secret Scanner
-        uses: secret-scanner/action@0.0.2
+        uses: secret-scanner/action@bf855b904a8bca17a334986797650dacec7ed529
 ```
 
 ### Ignoring false positives
@@ -91,7 +91,7 @@ jobs:
       - name: Checkout Configuration
         uses: actions/checkout@v3
       - name: Secret Scanner
-        uses: secret-scanner/action@0.0.2
+        uses: secret-scanner/action@bf855b904a8bca17a334986797650dacec7ed529
         with:
           detect_secret_additional_args: ${{ env.SCANNER_ARGS }}
 ```
