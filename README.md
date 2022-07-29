@@ -41,16 +41,16 @@ Often you might have strings that the secret scanner determines are secrets, but
 3. Randomly generated base64 strings
 
 For these cases, it is useful to ignore certain files, lines, or "secrets". You can do this using the files:
-- `.github/actions/secret-scanner/excluded_files_regex.txt`
-- `.github/actions/secret-scanner/excluded_secrets_regex.txt`
-- `.github/actions/secret-scanner/excluded_lines_regex.txt`
+- `.github/actions/secret-scanner/excluded_files.patterns`
+- `.github/actions/secret-scanner/excluded_secrets.patterns`
+- `.github/actions/secret-scanner/excluded_lines.patterns`
 
 While the path defaults to `.github/actions/secret-scanner`, you can change this with the input `exclude_files_path`. Blank lines and lines starting with `#` will be ignored.
 
-#### How to use excluded_files_regex.txt
+#### How to use excluded_files.patterns
 On each line, write the regex for the path to the file to ignore. For example:
 ```
-# File: .github/actions/secret-scanner/excluded_files_regex.txt
+# File: .github/actions/secret-scanner/excluded_files.patterns
 # Lines starting with the char '#' are ignored
 .*-sealed\.json$
 \.github/actions/spelling/
@@ -58,17 +58,17 @@ On each line, write the regex for the path to the file to ignore. For example:
 
 will exclude files ending in `-sealed.json` and everything in the `.github/actions/spelling` folder
 
-#### How to use excluded_secrets_regex.txt
+#### How to use excluded_secrets.patterns
 On each line write the regex for a secret you wish to ignore. For example:
 ```
-# File: .github/actions/secret-scanner/excluded_secrets_regex.txt
+# File: .github/actions/secret-scanner/excluded_secrets.patterns
 ^SHA256:[A-Fa-f0-9]{64}
 ```
 
-#### How to use excluded_lines_regex.txt
+#### How to use excluded_lines.patterns
 On each line write the regex for a line you with to ignore. For example:
 ```
-# File: .github/actions/secret-scanner/excluded_lines_regex.txt
+# File: .github/actions/secret-scanner/excluded_lines.patterns
 ^\s+with\s+imageTag\s*=.*$
 ```
 
