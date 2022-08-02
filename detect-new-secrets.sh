@@ -97,7 +97,7 @@ echo "::add-matcher::$GITHUB_ACTION_PATH/secret-problem-matcher.json"
 scan_new_secrets
 
 if [ "$(cat $new_secrets_file)" = "[]" ]; then
-    echo "No secrets found"
+    echo "No new secrets found"
     exit 0
 fi
 
