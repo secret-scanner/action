@@ -42,16 +42,11 @@ EOF
 
 generate_command_to_update_secrets_baseline() {
     cat << EOF > "$command_to_update_baseline_file"
-currently_staged_files=\`git diff --name-only --cached\`
-git reset HEAD
+cat << 'NEW_BASELINE' > "$BASELINE_FILE"
+$(jq 'setpath(["results"]; (.results | map_values(. | map_values(setpath(["is_secret"]; (.is_secret // false))))))' "$BASELINE_FILE")
+NEW_BASELINE
 
-echo '$(jq 'setpath(["results"]; (.results | map_values(. | map_values(setpath(["is_secret"]; (.is_secret // false))))))' "$BASELINE_FILE")' > "$BASELINE_FILE"
-git add "$BASELINE_FILE"
-git commit -m "Updating baseline file"
-
-if [ "\$currently_staged_files" ]; then
-    git add $currently_staged_files
-fi
+git commit -m "Updating baseline file" "$BASELINE_FILE"
 EOF
 }
 
