@@ -8,12 +8,12 @@ fetch_flags_from_file() {
     file_to_check="$2"
     
     flags=()
-    while read line; do 
+    (while read line; do 
         if [[ "${line::1}" != '#' ]] && [[ ! -z "$line" ]]; then
             flag="$flag_to_add $line "
             flags+="$flag"
         fi
-    done < "$file_to_check"
+    done < "$file_to_check") 2>&1 > /dev/null
 
     echo "$flags"
 }
