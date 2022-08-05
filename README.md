@@ -93,7 +93,7 @@ jobs:
       - name: Secret Scanner
         uses: secret-scanner/action@0.0.2
         with:
-          detect-secret-additional-args: ${{ env.SCANNER_ARGS }}
+          detect_secret_additional_args: ${{ env.SCANNER_ARGS }}
 ```
 
 This will ignore everything in `.github/actions/spelling/*`, and any line that matches the regex `^\s+with\s+imageTag\s*=.*$`.
@@ -101,8 +101,8 @@ This will ignore everything in `.github/actions/spelling/*`, and any line that m
 ### Inputs
 |Input|Description|Required|default value|
 |-----|-----------|--------|-------------|
-|detect-secrets-version|The version of Yelp/detect-secrets to use|no|1.2.0|
-|detect-secret-additional-args|Extra arguments to pass to the `detect-secret` binary when it is looking for secrets|no|No additional arguments (empty string)|
-|baseline-file|A path to the baseline secrets file|no|.secrets.baseline|
-|python-version|The version of python to use|no|3.10.4|
+|detect_secrets_version|The version of Yelp/detect-secrets to use|no|1.2.0|
+|detect_secret_additional_args|Extra arguments to pass to the `detect-secret` binary when it is looking for secrets|no|No additional arguments (empty string)|
+|baseline_file|A path to the baseline secrets file|no|.secrets.baseline|
+|python_version|The version of python to use|no|3.10.4|
 |exclude_files_path|A path to the files containing things to exclude|no|.github/actions/secret-scanner|
