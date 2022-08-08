@@ -23,6 +23,7 @@ scan_new_secrets() {
     excluded_secrets=$(fetch_flags_from_file '--exclude-secrets' "$EXCLUDE_SECRETS_PATH" 2>/dev/null)
     excluded_lines=$(fetch_flags_from_file '--exclude-lines' "$EXCLUDE_LINES_PATH" 2>/dev/null)
     detect_secret_args="$excluded_files $excluded_secrets $excluded_lines $DETECT_SECRET_ADDITIONAL_ARGS"
+    echo "Running detect-secrets with args: $detect_secret_args"
 
     detect-secrets scan $detect_secret_args --baseline "$BASELINE_FILE"
     detect-secrets audit "$BASELINE_FILE" --report --json > "$all_secrets_file"
