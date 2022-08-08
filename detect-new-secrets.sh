@@ -8,20 +8,20 @@ fetch_flags_from_file() {
     file_to_check="$2"
     
     flags=()
-    (while read line; do 
+    while read line; do 
         if [[ "${line::1}" != '#' ]] && [[ ! -z "$line" ]]; then
             flag="$flag_to_add $line "
             flags+="$flag"
         fi
-    done < "$file_to_check") 2>&1 > /dev/null
+    done < "$file_to_check"
 
     echo "$flags"
 }
 
 scan_new_secrets() {
-    excluded_files=$(fetch_flags_from_file '--exclude-files' "$EXCLUDE_FILES_PATH")
-    excluded_secrets=$(fetch_flags_from_file '--exclude-secrets' "$EXCLUDE_SECRETS_PATH")
-    excluded_lines=$(fetch_flags_from_file '--exclude-lines' "$EXCLUDE_LINES_PATH")
+    excluded_files=$(fetch_flags_from_file '--exclude-files' "$EXCLUDE_FILES_PATH" 2>/dev/null)
+    excluded_secrets=$(fetch_flags_from_file '--exclude-secrets' "$EXCLUDE_SECRETS_PATH" 2>/dev/null)
+    excluded_lines=$(fetch_flags_from_file '--exclude-lines' "$EXCLUDE_LINES_PATH" 2>/dev/null)
     detect_secret_args="$excluded_files $excluded_secrets $excluded_lines $DETECT_SECRET_ADDITIONAL_ARGS"
 
     detect-secrets scan $detect_secret_args --baseline "$BASELINE_FILE"
