@@ -43,11 +43,11 @@ EOF
 
 generate_command_to_update_secrets_baseline() {
     cat << EOF > "$command_to_update_baseline_file"
-cat << 'NEW_BASELINE' > "$BASELINE_FILE"
+cat << 'NEW_BASELINE' > '$NEW_BASELINE'
 $(jq 'setpath(["results"]; (.results | map_values(. | map_values(setpath(["is_secret"]; (.is_secret // false))))))' "$BASELINE_FILE")
 NEW_BASELINE
 
-git commit -m "Updating baseline file" "$BASELINE_FILE"
+git commit -m 'Updating baseline file' '$NEW_BASELINE'
 EOF
 }
 
@@ -56,7 +56,7 @@ advice_if_none_are_secret_verbose() {
 
     cat << EOF
 ### If none of these are secrets or you don't care about these secrets
-Replace the file \`$BASELINE_FILE\` with:
+Replace the file \`$NEW_BASELINE\` with:
 
 <details>
     <summary>Command to Update Secrets Baseline</summary>
@@ -90,6 +90,13 @@ EOF
 }
 
 echo "::add-matcher::$GITHUB_ACTION_PATH/secret-problem-matcher.json"
+if [ -z "$BASELINE_FILE" ]; then
+    export BASELINE_FILE=$(mktemp)
+    NEW_BASELINE=.secrets.baseline
+    jq 'del(.results[])' "$GITHUB_ACTION_PATH/.secrets.baseline" > "$BASELINE_FILE"
+else
+    NEW_BASELINE="$BASELINE_FILE"
+fi
 scan_new_secrets
 
 if [ "$(cat $new_secrets_file)" = "[]" ]; then
