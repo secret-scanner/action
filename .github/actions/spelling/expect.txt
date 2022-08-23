@@ -1,13 +1,17 @@
 args
+dirname
 json
 mktemp
 NONINFRINGEMENT
+pwd
 README
 regex
 regexp
 setpath
+stderr
 ubuntu
 URL
+usr
 workflow
 yaml
 yml
