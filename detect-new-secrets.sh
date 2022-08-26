@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 all_secrets_file=$(mktemp)
 new_secrets_file=$(mktemp)
 command_to_update_baseline_file=$(mktemp)
+if [ -z "$GITHUB_ACTION_PATH" ]; then
+    GITHUB_ACTION_PATH=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+fi
+GITHUB_STEP_SUMMARY=${GITHUB_STEP_SUMMARY:-'/dev/stderr'}
 
 fetch_flags_from_file() {
     flag_to_add="$1"
