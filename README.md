@@ -104,5 +104,5 @@ This will ignore everything in `.github/actions/spelling/*`, and any line that m
 |detect_secrets_version|The version of Yelp/detect-secrets to use|no|1.2.0|
 |detect_secret_additional_args|Extra arguments to pass to the `detect-secret` binary when it is looking for secrets|no|No additional arguments (empty string)|
 |baseline_file|A path to the baseline secrets file|no|.secrets.baseline|
-|python_version|The version of python to use|no|3.10.4|
+|python_version|The version of python to use|no|3.10.22|
 |exclude_files_path|A path to the files containing things to exclude|no|.github/actions/secret-scanner|
